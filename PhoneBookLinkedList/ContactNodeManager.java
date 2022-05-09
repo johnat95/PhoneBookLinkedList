@@ -1,5 +1,7 @@
 package PhoneBookLinkedList;
 
+import java.util.NoSuchElementException;
+
 public class ContactNodeManager {
     private ContactNode firstNode;
     private int length;
@@ -50,11 +52,28 @@ public class ContactNodeManager {
 
     }
 
+    private void addSorted(ContactNode newNode){
+
+        ContactNode currentNode = firstNode;
+
+        ContactNode nextNode = currentNode.getNextNode();
+
+        while(currentNode.getNextNode() != null){
+
+            if(nextNode.getCompareString().compareTo(newNode.getCompareString())<0){
+                //splice
+                 newNode.setNextNode(currentNode.getNextNode());
+
+                 currentNode.setNextNode(newNode);
+            }
+        }
+    }
+
     //this method returns the node at the given index
     public ContactNode getNode(int index) {
 
         if (index >= length) {
-            throw new IndexOutOfBoundsException();
+            throw new NoSuchElementException();
         }
 
         int currentIndex = 0;

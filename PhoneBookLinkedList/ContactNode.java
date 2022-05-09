@@ -100,6 +100,12 @@ public class ContactNode {
         this.phoneNumber = phoneNumber;
     }
 
+    //this method will concat the last name of a contact to the first name, bringing both
+    //to lower case
+    public String getCompareString(){
+        return firstName.toLowerCase().concat(lastName.toLowerCase());
+    }
+
     @Override
     public String toString() {
         return "ContactNode{"+
@@ -113,4 +119,6 @@ public class ContactNode {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
+
+
 }
