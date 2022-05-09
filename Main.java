@@ -1,4 +1,3 @@
-import PhoneBookLinkedList.ContactNode;
 import PhoneBookLinkedList.ContactNodeManager;
 
 public class Main {
@@ -7,11 +6,11 @@ public class Main {
 
         ContactNodeManager contactNodeManager = new ContactNodeManager();
 
-        contactNodeManager.addNode(new ContactNode("Nathan", "Johnston","a","a",
+        contactNodeManager.addNode(contactNodeManager.createContactNode("Nathan", "Johnston","a","a",
                 "a","a","a","a"));
-        contactNodeManager.addNode(new ContactNode("Naan", "Johnston","a","a",
+        contactNodeManager.addNode(contactNodeManager.createContactNode("Naan", "Johnston","a","a",
                 "a","a","a","a"));
-        contactNodeManager.addNode(new ContactNode("an", "Johnston","a","a",
+        contactNodeManager.addNode(contactNodeManager.createContactNode("an", "Johnston","a","a",
                 "a","a","a","a"),1);
 
         contactNodeManager.display(0);
