@@ -1,23 +1,46 @@
-import PhoneBookLinkedList.ContactNodeManager;
+import PhoneBookLinkedList.PhonebookManager;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        ContactNodeManager contactNodeManager = new ContactNodeManager();
+        PhonebookManager contactNodeManager = new PhonebookManager();
 
-        contactNodeManager.addNode(contactNodeManager.createContactNode("Nathan", "Johnston","a","a",
+        //contactNodeManager.displayAll();
+        contactNodeManager.addSorted(contactNodeManager.createContactNode("aathan", "Johnston","1","a",
                 "a","a","a","a"));
-        contactNodeManager.addNode(contactNodeManager.createContactNode("Naan", "Johnston","a","a",
+
+        //contactNodeManager.displayAll();
+        contactNodeManager.addSorted(contactNodeManager.createContactNode("caan", "Johnston","a","a",
                 "a","a","a","a"));
-        contactNodeManager.addNode(contactNodeManager.createContactNode("an", "Johnston","a","a",
-                "a","a","a","a"),1);
 
-        contactNodeManager.display(0);
+        //contactNodeManager.displayAll();
+        contactNodeManager.addSorted(contactNodeManager.createContactNode("b", "Johnston","a","a",
+                "a","a","a","a"));
 
-        contactNodeManager.editNode("NathanJohnston", contactNodeManager.FIRST_NAME, "sdfs");
+        //contactNodeManager.displayAll();
+        contactNodeManager.addSorted(contactNodeManager.createContactNode("d", "Johnston","a","a",
+                "a","a","a","a"));
 
-        contactNodeManager.display(0);
+        //contactNodeManager.displayAll();
+        contactNodeManager.addSorted(contactNodeManager.createContactNode("j", "Johnston","a","a",
+                "a","a","a","a"));
+
+        //contactNodeManager.displayAll();
+        contactNodeManager.addSorted(contactNodeManager.createContactNode("h", "Aohnston","a","a",
+                "a","a","a","a"));
+
+
+        contactNodeManager.displayAll();
+
+        contactNodeManager.removeNode("haohnston");
+        contactNodeManager.displayAll();
+
+
+
+
+
+
 
 
 

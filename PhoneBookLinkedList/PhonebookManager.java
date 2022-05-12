@@ -1,9 +1,11 @@
 package PhoneBookLinkedList;
 
+import com.sun.istack.internal.Nullable;
+
 import java.util.NoSuchElementException;
 
-public class ContactNodeManager {
-    private ContactNodeManager.ContactNode firstNode;
+public class PhonebookManager {
+    private ListNode firstNode;
     private int length;
 
 
@@ -18,71 +20,84 @@ public class ContactNodeManager {
     public final int PHONE_NUMBER = 8;
 
 
-    //this method creats a new contact node
-    public ContactNode createContactNode( String firstName, String lastName,
-                                          String address, String city, String state, String zipCode, String email,
-                                          String phoneNumber){
-        return new ContactNode(firstName, lastName, address, city, state, zipCode, email, phoneNumber);
+
+
+    //this method creates a new contact node
+    public ListNode createContactNode(String firstName, String lastName,
+                                      String address, String city, String state, String zipCode, String email,
+                                      String phoneNumber){
+        return new ListNode(firstName, lastName, address, city, state, zipCode, email, phoneNumber);
     }
     //this
-    public void addNode(ContactNode newNode) {
+    public void addNode(ListNode newNode) {
 
         //if there are no nodes, the new node becomes the first node.
-        if (this.firstNode == null) {
-            this.firstNode = newNode;
+        if (firstNode == null) {
+            firstNode = newNode;
         } else {
 
             //link new node to last node
-            PhoneBookLinkedList.ContactNodeManager.ContactNode lastNode = getNode(length-1);
+            ListNode lastNode = getNthNode(length-1);
             lastNode.setNextNode(newNode);
         }
         length++;
 
     }
 
-    //this method add a node at a given index
-    public void addNode(ContactNode newNode, int index) {
 
-        //get previous node and its next node
-        ContactNode previousNode = getNode(index-1);
-        ContactNode nextNode = previousNode.getNextNode();
-
-        //link next node to new node
-        newNode.setNextNode(nextNode);
-
-        //link new node to previous node
-        previousNode.setNextNode(newNode);
-
-        length++;
-
-    }
-
-    private void addSorted(ContactNode newNode){
-
-        ContactNode currentNode = firstNode;
-
-        ContactNode nextNode = currentNode.getNextNode();
-
-        while(currentNode.getNextNode() != null){
-
-            if(nextNode.getCompareString().compareTo(newNode.getCompareString())<0){
-                //splice
-                 newNode.setNextNode(currentNode.getNextNode());
-
-                 currentNode.setNextNode(newNode);
-            }
+    public void addSorted(ListNode newNode){
+        if(firstNode == null ){
+            firstNode = newNode;
+            length++;
+            return;
         }
+
+        ListNode testNode = firstNode;
+
+        ListNode pastNode = null;
+
+
+        while(testNode != null){
+
+            //check node
+            if(newNode.getLastName().compareTo(testNode.getLastName())<=0){
+
+                if(pastNode == null){
+                    newNode.setNextNode(testNode);
+                    firstNode = newNode;
+                    break;
+                }
+
+                //insert new node between testNode and past node
+                //once the testNode comes after the new node
+                pastNode.setNextNode(newNode);
+                newNode.setNextNode(testNode);
+                break;
+            }
+
+            //move to the next node
+            pastNode = testNode;
+            testNode = testNode.getNextNode();
+
+            //add to end of list no testNodes come after newNode
+            if(testNode == null){
+                pastNode.setNextNode(newNode);
+
+            }
+
+        }
+        length++;
     }
 
     //this method returns the node at the given index
-    public ContactNode getNode(int index) {
+    public ListNode getNthNode(int index) {
 
-        if (index >= length) {
+        if (index > length) {
             throw new NoSuchElementException();
         }
 
         int currentIndex = 0;
-        ContactNode currentNode = firstNode;
+        ListNode currentNode = firstNode;
 
         //loop though nodes if requested node isn't at index 0
         if(index != 0) {
@@ -95,15 +110,15 @@ public class ContactNodeManager {
         return currentNode;
     }
 
-    public ContactNode getNode(String name) {
+    private ListNode getNode(String name) {
 
-        ContactNode currentNode = firstNode;
+        ListNode currentNode = firstNode;
 
         //loop though nodes check the name of each contact
-        while (currentNode.getNextNode() != null){
+        while (currentNode != null){
 
             //check against first and last name
-            if((currentNode.getFirstName()+currentNode.getLastName()).equalsIgnoreCase(name)){
+            if((currentNode.getCompareString().toLowerCase()).equalsIgnoreCase(name)){
                 return currentNode;
             }
             currentNode = currentNode.getNextNode();
@@ -114,117 +129,163 @@ public class ContactNodeManager {
 
     //this method remove the node at the given index
     public void removeNode(int index){
-        if(index>0){
-            //link over node at given index
-            ContactNode previousNode = getNode(index-1);
-            previousNode.setNextNode(getNode(index+1));
-        }else{
+        //if node is last node
+        if(index==length-1){
+            ListNode previousNode = getNthNode(index-1);
+            previousNode.setNextNode(null);
+        }else if(index==0){
             //if removing the firstNode, make the second
             //node the first
-            firstNode = getNode(index+1);
+            firstNode = getNthNode(index+1);
+        }else{
+            //link the previous and next node
+            ListNode previousNode = getNthNode(index-1);
+            ListNode nextNode = getNthNode(index).getNextNode();
+            previousNode.setNextNode(nextNode);
         }
+        length--;
     }
 
-    public void removeNode(String name){
+    public int removeNode(String name){
 
-        ContactNode currentNode = firstNode;
-        ContactNode previousNode = null;
+        ListNode currentNode = firstNode;
+        ListNode previousNode = null;
+
 
         //loop though nodes check the name of each contact
-        while (currentNode.getNextNode() != null){
+        while (currentNode != null){
 
             //check against first and last name
-            if((currentNode.getFirstName()+currentNode.getLastName()).equalsIgnoreCase(name)){
-                //if replacing the first node
+            if((currentNode.getCompareString().equalsIgnoreCase(name))){
+
+                //if removing the first node
                 if(previousNode == null){
                     firstNode = currentNode.getNextNode();
+
+
                 }else{
                     previousNode.setNextNode(currentNode.getNextNode());
                 }
-
+                //indicates successful removal
+                length--;
+                return 1;
             }
             //keep current node in memory
             previousNode = currentNode;
-
             currentNode = currentNode.getNextNode();
+
         }
-
-    }
-
-    public void editNode(int index, int field, String newValue){
-
-        ContactNode editNode = getNode(index);
-
-        switch (field){
-            case FIRST_NAME:
-                editNode.setFirstName(newValue);
-                break;
-            case LAST_NAME:
-                editNode.setLastName(newValue);
-                break;
-            case ADDRESS:
-                editNode.setAddress(newValue);
-                break;
-            case CITY:
-                editNode.setCity(newValue);
-                break;
-            case STATE:
-                editNode.setState(newValue);
-                break;
-            case ZIP_CODE:
-                editNode.setZipCode(newValue);
-                break;
-            case EMAIL:
-                editNode.setEmail(newValue);
-                break;
-            case PHONE_NUMBER:
-                editNode.setPhoneNumber(newValue);
-                break;
-        }
-
-    }
-    public void editNode(String name, int field, String newValue){
-
-        ContactNode editNode = getNode(name);
-
-        switch (field){
-            case FIRST_NAME:
-                editNode.setFirstName(newValue);
-                break;
-            case LAST_NAME:
-                editNode.setLastName(newValue);
-                break;
-            case ADDRESS:
-                editNode.setAddress(newValue);
-                break;
-            case CITY:
-                editNode.setCity(newValue);
-                break;
-            case STATE:
-                editNode.setState(newValue);
-                break;
-            case ZIP_CODE:
-                editNode.setZipCode(newValue);
-                break;
-            case EMAIL:
-                editNode.setEmail(newValue);
-                break;
-            case PHONE_NUMBER:
-                editNode.setPhoneNumber(newValue);
-                break;
-        }
+        //indicates no contact found
+        return  -1;
     }
 
     public void display(int index){
-        System.out.println(getNode(index).toString());
+        System.out.println(getNthNode(index).toString());
     }
     public void display(String name){
-        System.out.println(getNode(name).toString());
+        @Nullable
+        ListNode node = getNode(name);
+        if(node != null){
+            System.out.println(getNode(name).toString());
+            return;
+        }
+        System.out.println("No Entry Found");
+
+    }
+    public void displayAll(){
+        ListNode current = firstNode;
+
+        while(current != null){
+            System.out.println(current.getCompareString());
+            current = current.getNextNode();
+        }
+        System.out.println("~");
     }
 
-    private class ContactNode{
-        private ContactNode nextNode;
+    //this method edits the node at the given position
+    public int editNthNode(int index, int field, String newValue){
+        @Nullable
+        ListNode editNode = getNthNode(index);
 
+        if(editNode == null){
+            return -1;
+        }
+
+        switch (field){
+            case FIRST_NAME:
+                editNode.setFirstName(newValue);
+                break;
+            case LAST_NAME:
+                editNode.setLastName(newValue);
+                break;
+            case ADDRESS:
+                editNode.setAddress(newValue);
+                break;
+            case CITY:
+                editNode.setCity(newValue);
+                break;
+            case STATE:
+                editNode.setState(newValue);
+                break;
+            case ZIP_CODE:
+                editNode.setZipCode(newValue);
+                break;
+            case EMAIL:
+                editNode.setEmail(newValue);
+                break;
+            case PHONE_NUMBER:
+                editNode.setPhoneNumber(newValue);
+                break;
+        }
+        return 1;
+    }
+    //this method edits the node with the matching name
+    public int editNode(String name, int field, String newValue){
+        @Nullable
+        ListNode editNode = getNode(name);
+
+        if(editNode == null){
+            return -1;
+        }
+
+        switch (field){
+            case FIRST_NAME:
+
+                editNode.setFirstName(newValue);
+                break;
+            case LAST_NAME:
+                editNode.setLastName(newValue);
+                break;
+            case ADDRESS:
+                editNode.setAddress(newValue);
+                break;
+            case CITY:
+                editNode.setCity(newValue);
+                break;
+            case STATE:
+                editNode.setState(newValue);
+                break;
+            case ZIP_CODE:
+                editNode.setZipCode(newValue);
+                break;
+            case EMAIL:
+                editNode.setEmail(newValue);
+                break;
+            case PHONE_NUMBER:
+                editNode.setPhoneNumber(newValue);
+                break;
+        }
+        return 1;
+    }
+
+
+
+    public class ListNode {
+
+        // reference to next node
+        private ListNode nextNode;
+
+        //personal details
         private String firstName;
         private String lastName;
         private String address;
@@ -235,9 +296,9 @@ public class ContactNodeManager {
         private String phoneNumber;
 
 
-        public ContactNode( String firstName, String lastName,
-                            String address, String city, String state, String zipCode, String email,
-                            String phoneNumber) {
+        public ListNode(String firstName, String lastName,
+                        String address, String city, String state, String zipCode, String email,
+                        String phoneNumber) {
 
 
             this.firstName = firstName;
@@ -250,11 +311,11 @@ public class ContactNodeManager {
             this.phoneNumber = phoneNumber;
         }
 
-        public ContactNode getNextNode() {
+        public ListNode getNextNode() {
             return nextNode;
         }
 
-        public void setNextNode(ContactNode nextNode) {
+        public void setNextNode(ListNode nextNode) {
             this.nextNode = nextNode;
         }
 
@@ -330,7 +391,7 @@ public class ContactNodeManager {
 
         @Override
         public String toString() {
-            return "ContactNode{"+
+            return "ListNode{"+
                     "firstName='" + firstName + '\'' +
                     ", lastName='" + lastName + '\'' +
                     ", address='" + address + '\'' +
