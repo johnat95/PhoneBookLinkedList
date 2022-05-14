@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class PhonebookUI {
 
-    private PhonebookManager phonebookManager = new PhonebookManager();
+    protected PhonebookManager phonebookManager = new PhonebookManager();
 
     private String[] fields = {"First Name", "Last Name", "Address", "City", "State",
             "Zip Code","Email", "Phone Number"};
@@ -13,7 +13,7 @@ public class PhonebookUI {
 
     public void runUI(){
 
-
+        //add starting data
         phonebookManager.addSorted(phonebookManager.createContactNode("a", "a","a","a",
                 "a","a","a","a"));
         phonebookManager.addSorted(phonebookManager.createContactNode("b", "b","b","b",
@@ -21,6 +21,7 @@ public class PhonebookUI {
         phonebookManager.addSorted(phonebookManager.createContactNode("c", "c","c","c",
                 "c","c","c","c"));
         phonebookManager.displayAll();
+
 
         boolean running = true;
 
@@ -93,6 +94,8 @@ public class PhonebookUI {
         phonebookManager.editNode(line,userInput,newValue);
 
     }
+
+
 
     private int getUserInput(int min, int max){
 

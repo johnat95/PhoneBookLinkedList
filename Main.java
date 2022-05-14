@@ -10,7 +10,7 @@ public class Main {
         Demo demo = new Demo();
 
         //change false to true to run demo
-        if(false){
+        if(true){
             demo.run();
         }else{
             ui.runUI();
@@ -21,37 +21,43 @@ public class Main {
     private static class Demo{
 
         public void run(){
-            PhonebookManager contactNodeManager = new PhonebookManager();
 
-            //contactNodeManager.displayAll();
-            contactNodeManager.addSorted(contactNodeManager.createContactNode("aathan", "Johnston","1","a",
+
+            //show transfer method
+
+            System.out.println("~Bellingham~");
+            PhonebookManager bellingham = new PhonebookManager();
+            //a node
+            bellingham.addSorted(bellingham.createContactNode("a", "a","a","a",
                     "a","a","a","a"));
+            //c node
+            bellingham.addSorted(bellingham.createContactNode("c", "c","c","c",
+                    "c","c","c","c"));
+            bellingham.displayAll();
 
-            //contactNodeManager.displayAll();
-            contactNodeManager.addSorted(contactNodeManager.createContactNode("caan", "Johnston","a","a",
-                    "a","a","a","a"));
+            System.out.println("~Seattle~");
+            PhonebookManager seattle = new PhonebookManager();
+            //b node
+            seattle.addSorted(seattle.createContactNode("b", "b","b","b",
+                    "b","b","b","b"));
+            seattle.displayAll();
 
-            //contactNodeManager.displayAll();
-            contactNodeManager.addSorted(contactNodeManager.createContactNode("b", "Johnston","a","a",
-                    "a","a","a","a"));
+            //transfer c in bellingham to seattle
+            bellingham.display("cc");
+            bellingham.transfer(seattle,"cc");
+            //remove b
+            seattle.removeNode("bb");
+            System.out.println("~Seattle with C and no b~");
+            seattle.displayAll();
 
-            //contactNodeManager.displayAll();
-            contactNodeManager.addSorted(contactNodeManager.createContactNode("d", "Johnston","a","a",
-                    "a","a","a","a"));
+            //change aa to za
+            bellingham.editNode("aa", bellingham.FIRST_NAME,"za" );
 
-            //contactNodeManager.displayAll();
-            contactNodeManager.addSorted(contactNodeManager.createContactNode("j", "Johnston","a","a",
-                    "a","a","a","a"));
-
-            //contactNodeManager.displayAll();
-            contactNodeManager.addSorted(contactNodeManager.createContactNode("h", "Aohnston","a","a",
-                    "a","a","a","a"));
+            System.out.println("~Bellingham without C and za as first name~");
+            bellingham.displayAll();
 
 
-            contactNodeManager.displayAll();
 
-            contactNodeManager.removeNode("haohnston");
-            contactNodeManager.displayAll();
         }
     }
 }

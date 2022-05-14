@@ -121,7 +121,7 @@ public class PhonebookManager {
         return currentNode;
     }
 
-    private ListNode getNode(String name) {
+    public ListNode getNode(String name) {
 
         ListNode currentNode = firstNode;
 
@@ -288,7 +288,7 @@ public class PhonebookManager {
         return 1;
     }
 
-    private int editNode(ListNode node, int field, String newValue){
+    public int editNode(ListNode node, int field, String newValue){
 
         if(node == null){
             return -1;
@@ -322,6 +322,16 @@ public class PhonebookManager {
                 break;
         }
         return 1;
+    }
+
+    public void transfer(PhonebookManager otherManager, String name){
+
+        ListNode node = getNode(name);
+        otherManager.addSorted(node);
+
+        removeNode(name);
+
+
     }
 
 
@@ -370,7 +380,7 @@ public class PhonebookManager {
 
         @Override
         public String toString() {
-            return "First Name:'" + firstName + '\n' +
+            return "First Name:" + firstName + '\n' +
                     "Last Name:" + lastName + '\n' +
                     "Address: " + address + '\n' +
                     "City: " + city + '\n' +
