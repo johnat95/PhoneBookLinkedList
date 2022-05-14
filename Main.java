@@ -1,48 +1,57 @@
 import PhoneBookLinkedList.PhonebookManager;
+import PhoneBookLinkedList.PhonebookUI;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        PhonebookManager contactNodeManager = new PhonebookManager();
+        PhonebookUI ui = new PhonebookUI();
 
-        //contactNodeManager.displayAll();
-        contactNodeManager.addSorted(contactNodeManager.createContactNode("aathan", "Johnston","1","a",
-                "a","a","a","a"));
+        Demo demo = new Demo();
 
-        //contactNodeManager.displayAll();
-        contactNodeManager.addSorted(contactNodeManager.createContactNode("caan", "Johnston","a","a",
-                "a","a","a","a"));
+        //change false to true to run demo
+        if(false){
+            demo.run();
+        }else{
+            ui.runUI();
+        }
 
-        //contactNodeManager.displayAll();
-        contactNodeManager.addSorted(contactNodeManager.createContactNode("b", "Johnston","a","a",
-                "a","a","a","a"));
+    }
 
-        //contactNodeManager.displayAll();
-        contactNodeManager.addSorted(contactNodeManager.createContactNode("d", "Johnston","a","a",
-                "a","a","a","a"));
+    private static class Demo{
 
-        //contactNodeManager.displayAll();
-        contactNodeManager.addSorted(contactNodeManager.createContactNode("j", "Johnston","a","a",
-                "a","a","a","a"));
+        public void run(){
+            PhonebookManager contactNodeManager = new PhonebookManager();
 
-        //contactNodeManager.displayAll();
-        contactNodeManager.addSorted(contactNodeManager.createContactNode("h", "Aohnston","a","a",
-                "a","a","a","a"));
+            //contactNodeManager.displayAll();
+            contactNodeManager.addSorted(contactNodeManager.createContactNode("aathan", "Johnston","1","a",
+                    "a","a","a","a"));
+
+            //contactNodeManager.displayAll();
+            contactNodeManager.addSorted(contactNodeManager.createContactNode("caan", "Johnston","a","a",
+                    "a","a","a","a"));
+
+            //contactNodeManager.displayAll();
+            contactNodeManager.addSorted(contactNodeManager.createContactNode("b", "Johnston","a","a",
+                    "a","a","a","a"));
+
+            //contactNodeManager.displayAll();
+            contactNodeManager.addSorted(contactNodeManager.createContactNode("d", "Johnston","a","a",
+                    "a","a","a","a"));
+
+            //contactNodeManager.displayAll();
+            contactNodeManager.addSorted(contactNodeManager.createContactNode("j", "Johnston","a","a",
+                    "a","a","a","a"));
+
+            //contactNodeManager.displayAll();
+            contactNodeManager.addSorted(contactNodeManager.createContactNode("h", "Aohnston","a","a",
+                    "a","a","a","a"));
 
 
-        contactNodeManager.displayAll();
+            contactNodeManager.displayAll();
 
-        contactNodeManager.removeNode("haohnston");
-        contactNodeManager.displayAll();
-
-
-
-
-
-
-
-
-
+            contactNodeManager.removeNode("haohnston");
+            contactNodeManager.displayAll();
+        }
     }
 }

@@ -19,8 +19,19 @@ public class PhonebookManager {
     public final int EMAIL = 7;
     public final int PHONE_NUMBER = 8;
 
+    //creates new LinkedNode from an array of details
+    public ListNode createContactNode(String[] detailsArray){
 
+        ListNode listNode = new ListNode();
 
+        for(int i = 0; i < detailsArray.length; i++){
+
+            editNode(listNode, i, detailsArray[i]);
+
+        }
+
+        return listNode;
+    }
 
     //this method creates a new contact node
     public ListNode createContactNode(String firstName, String lastName,
@@ -38,7 +49,7 @@ public class PhonebookManager {
 
             //link new node to last node
             ListNode lastNode = getNthNode(length-1);
-            lastNode.setNextNode(newNode);
+            lastNode.nextNode = newNode;
         }
         length++;
 
@@ -60,28 +71,28 @@ public class PhonebookManager {
         while(testNode != null){
 
             //check node
-            if(newNode.getLastName().compareTo(testNode.getLastName())<=0){
+            if(newNode.lastName.compareTo(testNode.lastName)<=0){
 
                 if(pastNode == null){
-                    newNode.setNextNode(testNode);
+                    newNode.nextNode = testNode;
                     firstNode = newNode;
                     break;
                 }
 
                 //insert new node between testNode and past node
                 //once the testNode comes after the new node
-                pastNode.setNextNode(newNode);
-                newNode.setNextNode(testNode);
+                pastNode.nextNode = newNode;
+                newNode.nextNode = testNode;
                 break;
             }
 
             //move to the next node
             pastNode = testNode;
-            testNode = testNode.getNextNode();
+            testNode = testNode.nextNode;
 
             //add to end of list no testNodes come after newNode
             if(testNode == null){
-                pastNode.setNextNode(newNode);
+                pastNode.nextNode = newNode;
 
             }
 
@@ -103,7 +114,7 @@ public class PhonebookManager {
         if(index != 0) {
             do {
                 currentIndex++;
-                currentNode = currentNode.getNextNode();
+                currentNode = currentNode.nextNode;
             } while (index != currentIndex);
         }
 
@@ -121,7 +132,7 @@ public class PhonebookManager {
             if((currentNode.getCompareString().toLowerCase()).equalsIgnoreCase(name)){
                 return currentNode;
             }
-            currentNode = currentNode.getNextNode();
+            currentNode = currentNode.nextNode;
         }
 
         return null;
@@ -132,7 +143,7 @@ public class PhonebookManager {
         //if node is last node
         if(index==length-1){
             ListNode previousNode = getNthNode(index-1);
-            previousNode.setNextNode(null);
+            previousNode.nextNode = null;
         }else if(index==0){
             //if removing the firstNode, make the second
             //node the first
@@ -140,8 +151,8 @@ public class PhonebookManager {
         }else{
             //link the previous and next node
             ListNode previousNode = getNthNode(index-1);
-            ListNode nextNode = getNthNode(index).getNextNode();
-            previousNode.setNextNode(nextNode);
+            ListNode nextNode = getNthNode(index).nextNode;
+            previousNode.nextNode = nextNode;
         }
         length--;
     }
@@ -160,11 +171,11 @@ public class PhonebookManager {
 
                 //if removing the first node
                 if(previousNode == null){
-                    firstNode = currentNode.getNextNode();
+                    firstNode = currentNode.nextNode;
 
 
                 }else{
-                    previousNode.setNextNode(currentNode.getNextNode());
+                    previousNode.nextNode = currentNode.nextNode;
                 }
                 //indicates successful removal
                 length--;
@@ -172,7 +183,7 @@ public class PhonebookManager {
             }
             //keep current node in memory
             previousNode = currentNode;
-            currentNode = currentNode.getNextNode();
+            currentNode = currentNode.nextNode;
 
         }
         //indicates no contact found
@@ -196,10 +207,10 @@ public class PhonebookManager {
         ListNode current = firstNode;
 
         while(current != null){
-            System.out.println(current.getCompareString());
-            current = current.getNextNode();
+            System.out.println(current.toString());
+            current = current.nextNode;
         }
-        System.out.println("~");
+        System.out.println("~end~");
     }
 
     //this method edits the node at the given position
@@ -213,33 +224,33 @@ public class PhonebookManager {
 
         switch (field){
             case FIRST_NAME:
-                editNode.setFirstName(newValue);
+                editNode.firstName = newValue;
                 break;
             case LAST_NAME:
-                editNode.setLastName(newValue);
+                editNode.lastName = newValue;
                 break;
             case ADDRESS:
-                editNode.setAddress(newValue);
+                editNode.address = newValue;
                 break;
             case CITY:
-                editNode.setCity(newValue);
+                editNode.city = newValue;
                 break;
             case STATE:
-                editNode.setState(newValue);
+                editNode.state = newValue;
                 break;
             case ZIP_CODE:
-                editNode.setZipCode(newValue);
+                editNode.zipCode = newValue;
                 break;
             case EMAIL:
-                editNode.setEmail(newValue);
+                editNode.email = newValue;
                 break;
             case PHONE_NUMBER:
-                editNode.setPhoneNumber(newValue);
+                editNode.phoneNumber = newValue;
                 break;
         }
         return 1;
     }
-    //this method edits the node with the matching name
+
     public int editNode(String name, int field, String newValue){
         @Nullable
         ListNode editNode = getNode(name);
@@ -250,29 +261,64 @@ public class PhonebookManager {
 
         switch (field){
             case FIRST_NAME:
-
-                editNode.setFirstName(newValue);
+                editNode.firstName = newValue;
                 break;
             case LAST_NAME:
-                editNode.setLastName(newValue);
+                editNode.lastName = newValue;
                 break;
             case ADDRESS:
-                editNode.setAddress(newValue);
+                editNode.address = newValue;
                 break;
             case CITY:
-                editNode.setCity(newValue);
+                editNode.city = newValue;
                 break;
             case STATE:
-                editNode.setState(newValue);
+                editNode.state = newValue;
                 break;
             case ZIP_CODE:
-                editNode.setZipCode(newValue);
+                editNode.zipCode = newValue;
                 break;
             case EMAIL:
-                editNode.setEmail(newValue);
+                editNode.email = newValue;
                 break;
             case PHONE_NUMBER:
-                editNode.setPhoneNumber(newValue);
+                editNode.phoneNumber = newValue;
+                break;
+        }
+        return 1;
+    }
+
+    private int editNode(ListNode node, int field, String newValue){
+
+        if(node == null){
+            return -1;
+        }
+
+        switch (field){
+            case FIRST_NAME:
+
+                node.firstName = newValue;
+                break;
+            case LAST_NAME:
+                node.lastName = newValue;
+                break;
+            case ADDRESS:
+                node.address = newValue;
+                break;
+            case CITY:
+                node.city = newValue;
+                break;
+            case STATE:
+                node.state = newValue;
+                break;
+            case ZIP_CODE:
+                node.zipCode= newValue;
+                break;
+            case EMAIL:
+                node.email = newValue;
+                break;
+            case PHONE_NUMBER:
+                node.phoneNumber = newValue;
                 break;
         }
         return 1;
@@ -280,7 +326,7 @@ public class PhonebookManager {
 
 
 
-    public class ListNode {
+    private class ListNode {
 
         // reference to next node
         private ListNode nextNode;
@@ -295,8 +341,12 @@ public class PhonebookManager {
         private String email;
         private String phoneNumber;
 
+        //empty constructor to allow fields to be entered as the ui provides them
+        public ListNode(){
 
-        public ListNode(String firstName, String lastName,
+        }
+
+        private ListNode(String firstName, String lastName,
                         String address, String city, String state, String zipCode, String email,
                         String phoneNumber) {
 
@@ -311,96 +361,23 @@ public class PhonebookManager {
             this.phoneNumber = phoneNumber;
         }
 
-        public ListNode getNextNode() {
-            return nextNode;
-        }
-
-        public void setNextNode(ListNode nextNode) {
-            this.nextNode = nextNode;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public String getZipCode() {
-            return zipCode;
-        }
-
-        public void setZipCode(String zipCode) {
-            this.zipCode = zipCode;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPhoneNumber() {
-            return phoneNumber;
-        }
-
-        public void setPhoneNumber(String phoneNumber) {
-            this.phoneNumber = phoneNumber;
-        }
 
         //this method will concat the last name of a contact to the first name, bringing both
         //to lower case
-        public String getCompareString(){
+        private String getCompareString(){
             return firstName.toLowerCase().concat(lastName.toLowerCase());
         }
 
         @Override
         public String toString() {
-            return "ListNode{"+
-                    "firstName='" + firstName + '\'' +
-                    ", lastName='" + lastName + '\'' +
-                    ", address='" + address + '\'' +
-                    ", city='" + city + '\'' +
-                    ", state='" + state + '\'' +
-                    ", zipCode='" + zipCode + '\'' +
-                    ", email='" + email + '\'' +
-                    ", phoneNumber='" + phoneNumber + '\'' +
-                    '}';
+            return "First Name:'" + firstName + '\n' +
+                    "Last Name:" + lastName + '\n' +
+                    "Address: " + address + '\n' +
+                    "City: " + city + '\n' +
+                    "State: " + state + '\n' +
+                    "Zip Code: " + zipCode + '\n' +
+                    "Email: " + email + '\n' +
+                    "Phone Number: " + phoneNumber + '\n';
         }
     }
 }
