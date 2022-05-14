@@ -9,7 +9,7 @@ public class Main {
 
         Demo demo = new Demo();
 
-        //change false to true to run demo
+        //change true to false to run ui
         if(true){
             demo.run();
         }else{
